@@ -72,8 +72,8 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 		# 利用國貿局網站抓取廠商進出口登記資料，若不存在網站中則另外儲存
 		for row in reader:
 			count = count + 1
-			if count == 30:
-				break
+			# if count == 30:
+			# 	break
 			for try_time in range(100):  # 連線嘗試一百次
 				try:
 					data = []   # 暫存資料
