@@ -24,16 +24,16 @@ def DownloadTWCompany():
 	for crawling data from Bureau of Foreign Trade
 	'''
 	print "下載全國營業(稅籍)登記資料集...".decode("utf-8").encode("big5")
-	downloadurl = urllib2.urlopen('http://www.fia.gov.tw/opendata/bgmopen1.zip')
-	zipcontent= downloadurl.read()
+	downloadurl = urllib2.urlopen("http://www.fia.gov.tw/opendata/bgmopen1.zip")
+	zipcontent = downloadurl.read()
 	with open("TWRAW.zip", 'wb') as f:
 	    f.write(zipcontent)
 	print "下載全國營業(稅籍)登記資料集完成".decode("utf-8").encode("big5")
 	
 	# 解壓縮檔案
 	print "資料解壓縮...".decode("utf-8").encode("big5")
-	with zipfile.ZipFile(open('TWRAW.zip', 'rb')) as f:
-		f.extractall(".", pwd = "1234")
+	with zipfile.ZipFile(open("TWRAW.zip", "rb")) as f:
+		f.extractall("", pwd = "1234")
 	
 	print "資料解壓縮完成".decode("utf-8").encode("big5")
 
@@ -57,8 +57,12 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 	last_GUI = ""  		# 最後爬取的GUI
 	count = 0  			# 計數
 
+	# 全國營業登記檔案下載
+	if not os.path.exists("BGMOPEN1.csv"):
+		DownloadTWCompany()
+
 	# 開啟全國營業登記資料檔
-	with open("../raw data/BGMOPEN1.csv", "r") as f:
+	with open("BGMOPEN1.csv", "r") as f:
 		
 		reader = csv.reader(f, delimiter = ';')
 		#skip前三列
@@ -68,8 +72,8 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 		# 利用國貿局網站抓取廠商進出口登記資料，若不存在網站中則另外儲存
 		for row in reader:
 			count = count + 1
-			# if count == 30:
-			# 	break
+			if count == 30:
+				break
 			for try_time in range(100):  # 連線嘗試一百次
 				try:
 					data = []   # 暫存資料
@@ -78,7 +82,7 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 					# 廠商進出口實績級距
 					GUI = str(row[1].strip().zfill(8))  # 廠商統編				
 					
-					# GUI不存在在已儲存的檔案中
+					# GUI不存在在已爬取的儲存檔案中
 					if GUI not in crawled_data:
 						url = "https://fbfh.trade.gov.tw/rich/text/fbj/asp/fbji150Q2.asp?uni_no=" + GUI  # 實績查詢網站
 
@@ -97,11 +101,13 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 						
 								years_value = {}  # 以年為key，進出口值為value
 								for i in tr:
+									# 年份
 									y = i.select("td")[0].text.strip()[0:3]
+									# value
 									io_value = [i.select("td")[1].text.encode("iso-8859-1").decode("utf-8").encode("big5"), i.select("td")[2].text.encode("iso-8859-1").decode("utf-8").encode("big5")]
 									years_value[y] = io_value
 								
-								# 將
+								# 將沒有進出口值的年份補上NA
 								for i in range(5):
 									if years_value.get(str(year-i)) == None:
 										level.append("NA")
@@ -163,6 +169,7 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 						industry = industry_code1 + " " + industry_name1 + "\n" + industry_code2 + " " + industry_name2 + "\n" + industry_code3 + " " + industry_name3 + "\n" + industry_code4 + " " + industry_name4
 				
 						# 依據是否存在進出口資料儲存資料
+						# 有進出口值資料
 						if note == True:
 							data = [GUI, head_gui, cn_name, en_name, address, establish_date, boss, capital, gui, industry.strip(), \
 							register_date, tel1, tel2, fax, web, mail, import_q, export_q]
@@ -171,7 +178,8 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 							data.extend(level)
 							# 將資料加入所有存在的資料中
 							trade_data.append(data)
-				
+					
+						# 無進出口值資料
 						else:
 							data = [GUI, head_gui, cn_name, address, establish_date, capital, gui, \
 							industry_code1, industry_name1, industry_code2, industry_name2, industry_code3, industry_name3]
@@ -186,7 +194,7 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 							trade_data = SaveData(trade_file, trade_data)
 							no_trade_data = SaveData(no_trade_file, no_trade_data)	
 						
-							print "files have been saved!"
+							print "Files have been saved!"
 							
 							time.sleep(random.randint(90, 150))
 				
@@ -196,7 +204,7 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 					break
 
 				except Exception as e:
-					print "something is wrong......"
+					print "Something is wrong......"
 					exc_type, exc_obj, exc_tb = sys.exc_info()
 					fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]  # 執行程式檔名
 					print "GUI:" + GUI + ", " + str(datetime.datetime.now())
@@ -206,7 +214,7 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 					trade_data = SaveData(trade_file, trade_data)
 					no_trade_data = SaveData(no_trade_file, no_trade_data)	
 					#res = requests.get(url, headers = {"Connection":"close"})
-					print "files have been saved!"
+					print "Files have been saved!"
 					time.sleep(random.randint(30, 60))
 
 					if last_GUI != GUI:
@@ -223,6 +231,8 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 
 	trade_data = SaveData(trade_file, trade_data)
 	no_trade_data = SaveData(no_trade_file, no_trade_data)
+	os.remove("TWRAW.zip")
+	os.remove("BGMOPEN1.csv")
 
 	print "There are " + str(count) + " companies have been crawled."
 

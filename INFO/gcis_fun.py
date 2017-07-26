@@ -47,7 +47,6 @@ def GcisCrawler(done_file, lastest_file, save_file):
 			lastest_GUI.remove(i)
 
 	USER_AGENT = ReadParameter("user_agents.txt")  # get user_agent list
-	# PROXY = ReadParameter("proxies.txt")  # get proxy list
 	s = requests.Session()
 
 	# GUI搜尋頁面網址
@@ -62,8 +61,8 @@ def GcisCrawler(done_file, lastest_file, save_file):
 	count = 0
 	for GUI in GUIs:
 		count = count + 1
-		# if count == 30:
-		# 	break
+		if count == 30:
+			break
 		data_type = ""  # 資料種類，公司、分公司、商業、工廠
 		codes = ""  	# 公司營業項目
 		status = ""  	# 公司營運狀態
