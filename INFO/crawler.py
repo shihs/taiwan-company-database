@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 # 爬取全台灣營業登記公司資料
 # 國貿局與經濟部商業司
-from co_fun import SaveData
-from co_fun import CrawledDataGUI
-from trade_fun import TradeCrawler
-from gcis_fun import GcisCrawler
+# from co_fun import CrawledDataGUI
+# from trade_fun import TradeCrawler
+# from gcis_fun import GcisCrawler
+from FUN import co_fun
+from FUN import trade_fun
+from FUN import gcis_fun
 import time
 import os
 
@@ -44,18 +46,18 @@ def ftrade(date, year, latest_month):
 	# 加上進出口額年份colnames
 	colnames.extend(header)
 	# 記錄已爬取過的公司GUI
-	crawled_data = CrawledDataGUI(trade, colnames = colnames)
+	crawled_data = co_fun.CrawledDataGUI(trade, colnames = colnames)
 
 
 	# 國貿局無資料公司data欄位名稱
 	colnames = ["GUI", "總機構GUI", "中文名稱", "地址", "設立日期", "資本額", "使用統一發票", \
 				"行業代碼1", "名稱1", "行業代碼2", "名稱2", "行業代碼3", "名稱3", "行業代碼4", "名稱4"]
 	# 記錄已爬取過的公司GUI
-	crawled_data.extend(CrawledDataGUI(no_trade, colnames = colnames))
+	crawled_data.extend(co_fun.CrawledDataGUI(no_trade, colnames = colnames))
 
 
 	### 國貿局網站爬取
-	TradeCrawler(crawled_data, trade, no_trade, year)
+	trade_fun.TradeCrawler(crawled_data, trade, no_trade, year)
 
 
 
@@ -76,7 +78,7 @@ def gcis(date, last_date):
 	file_name = "../raw data/gcis_" + date + ".csv"      	# 本次爬取經濟部商業司有資料的檔案名稱
 	
 	# 開始爬取
-	GcisCrawler(trade, last_file, file_name)
+	gcis_fun.GcisCrawler(trade, last_file, file_name)
 
 
 
