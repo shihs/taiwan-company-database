@@ -17,6 +17,22 @@
 &nbsp;&nbsp;&nbsp;國貿局網站上的公司資訊有些未被更新，利用Google API獲取最新的公司電話與地址
 (需要申請key才能使用)</br>
 
+</br>
+</br>
+</br>
 
+<b>程式分為兩個部份</b></br>
+1.公開資料，<a href="https://github.com/shihs/taiwan-company-database/tree/master/INFO">公司資本資訊</a></br>
+&nbsp;&nbsp;&nbsp;來源是
+<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集 </a>、
+<a href="https://fbfh.trade.gov.tw/rich/text/indexfbOL.asp">國貿局進出口資料 </a>、
+<a href="http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">經濟部財政司</a>
 
+</br>
 
+2.GOOGLE API <a href="https://github.com/shihs/taiwan-company-database/tree/master/GOOGLE%20INFO">公司電話與地址</a></br>
+<a href="https://developers.google.com/places/web-service/autocomplete?hl=zh-tw">地點自動完成 </a>、
+<a href="https://developers.google.com/places/web-service/details?hl=zh-tw">地點詳細資料 </a></br>
+
+</br>
+</br>
