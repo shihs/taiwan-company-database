@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 # 爬取全台灣營業登記公司資料
 # 國貿局與經濟部商業司
-# from co_fun import CrawledDataGUI
-# from trade_fun import TradeCrawler
-# from gcis_fun import GcisCrawler
 from FUN import co_fun
 from FUN import trade_fun
 from FUN import gcis_fun
@@ -74,7 +71,7 @@ def gcis(date, last_date):
 	last_date = str(last_date).zfill(4)
 
 	trade = "../raw data/trade_" + date + ".csv"			# 本次爬取國貿局有資料的檔案名稱
-	last_file = "../tw_data_all_" + last_date + ".csv" 		# 上次全台公司資料庫統整的檔案名稱
+	last_file = "../../tw_data_all_" + last_date + ".csv" 		# 上次全台公司資料庫統整的檔案名稱
 	file_name = "../raw data/gcis_" + date + ".csv"      	# 本次爬取經濟部商業司有資料的檔案名稱
 	
 	# 開始爬取
@@ -88,16 +85,20 @@ if __name__ == '__main__':
 	start = time.time()
 
 	# 國貿局進出口實績資料最新年份
-	year = input("please enter last year of trade data:")
+	# year = input("please enter last year of trade data:")
+	year = input("國貿局進出口實績資料最新年份:".decode("utf-8").encode("big5"))
 	# 國貿局進出口實績資料最新年份的最新月份
-	latest_month = input("please enter last month of trade data:")
+	# latest_month = input("please enter last month of trade data:")
+	latest_month = input("國貿局進出口實績資料最新年份的最新月份:".decode("utf-8").encode("big5"))
 	# 最新一份全國data檔名的時間
-	last_date = raw_input("please enter date for last saved file name:")
+	# last_date = raw_input("please enter date for last saved file name:")
+	last_date = raw_input("最新一份全國data檔名的時間:".decode("utf-8").encode("big5"))
 	# 此次要儲存的檔名時間
-	date = raw_input("please enter date for saved file name:")
+	# date = raw_input("please enter date for saved file name:")
+	date = raw_input("此次要儲存的檔名時間:".decode("utf-8").encode("big5"))
 
 	# 爬取國貿局資料
-	ftrade(date, year, latest_month)
+	#ftrade(date, year, latest_month)
 
 	# 爬取經濟部商業司資料
 	gcis(date, last_date)
