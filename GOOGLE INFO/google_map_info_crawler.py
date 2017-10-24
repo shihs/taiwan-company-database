@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#google map api for company's address and tel
+# google map api for company's address and tel
 
 from bs4 import BeautifulSoup
 import requests
@@ -59,6 +59,7 @@ def GetCompanyInfo(key, company_name):
 
 		# details api for company infomaiton
 		info_api = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + place_id + "&key=" + key
+		print info_api
 		
 		headers = {"accept-language":"zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4"}  # 地址顯示中文
 		res = requests.get(info_api, headers = headers)
@@ -116,8 +117,8 @@ def SaveFile(file_name, data):
 	data = []
 	return data
 
-# 檔案中的公司名稱
-# 
+
+# 檔案中的公司GUI
 def CompanyCollection(file_name, company_GUI_col):
 	'''蒐集檔案中的GUI
 	Args:
@@ -144,30 +145,30 @@ def main():
 	file_name = "../raw data/google_info.csv"
 	
 	# tw company
-	# company_names = CompanyCollection("..\\raw data\BGMOPEN1.csv", 4, 4, 2)
 	company_names = {}
-	with open("../raw data/BGMOPEN1.csv", "r") as f:
+	# 此次更新公司的GUI與名稱
+	with open("../raw data/trade_0829.csv", "r") as f:
 			reader = csv.reader(f, delimiter = ",")
-			for i in range(3):
+			for i in range(1):
 				next(reader, None)  # ignore column name
 			for i in reader:
 				try:
-					i = i[0].split(";")
-					# if i[1] not in google_info:
-					company_names[i[1]] = i[3]
+					# i = i[0].split(";")
+					# company_names[i[1]] = i[3]
+					company_names[i[0]] = i[2]
 				except:
 					continue
-	print len(company_names)
 
-	# company has been crawled
+	print "There are " + str(len(company_names)) + " companies."
+
+	# company GUI has been crawled
 	google_info = CompanyCollection(file_name, 2)
-	print len(google_info)
+	print "There are " + str(len(google_info)) + " have been crawled."
 	
 	# data for saving
 	data = []
 	
 	count = 0
-
 	limit_time = 0
 	
 	# 爬取全台公司名稱搜尋結果
@@ -176,13 +177,16 @@ def main():
 		# 如果該GUI已爬取過，則跳下一個GUI
 		if GUI in google_info:
 			continue
+
+		# 要搜尋的公司名稱
 		company_name = company_names[GUI]
+
 		count = count + 1
 
 		while True:
 			try:
-				# address, tel = GetCompanyInfo(key, company_name.decode("big5").encode("utf-8"))
-				address, tel = GetCompanyInfo(key, company_name)
+				address, tel = GetCompanyInfo(key, company_name.decode("big5").encode("utf-8"))
+				# address, tel = GetCompanyInfo(key, company_name)
 				
 				# 可能是key無效，重新抓一個key
 				if address == "REQUEST_DENIED":
@@ -192,7 +196,7 @@ def main():
 					continue
 
 				if address == "OVER_QUERY_LIMIT":
-					if limit_time == 100:
+					if limit_time == 10:
 						break
 					limit_time += 1
 					time.sleep(300)
@@ -206,13 +210,16 @@ def main():
 		# 超過當日抓取配額則存擋跳出迴圈
 		if address == "OVER_QUERY_LIMIT":
 			data = SaveFile(file_name, data)
+			print "OVER QUERY LIMIT TODAY...... T_T "
+			print "Try again tomorrow."
 			break
 
-		data.append([company_name.decode("utf-8").encode("big5", "ignore"), GUI, address, tel])		
+		data.append([company_name, GUI, address, tel])		
 		print str(count) + " is done!" 
 		
 		#time.sleep(random.randint(3, 5))
-
+		
+		# 每10000存檔一次
 		if count%10000 == 0:
 			SaveFile(file_name, data)
 
@@ -222,4 +229,5 @@ def main():
 
 if __name__ == '__main__':
  	main()
+
 

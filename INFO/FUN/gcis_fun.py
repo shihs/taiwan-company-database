@@ -75,7 +75,10 @@ def company_crawler(GUI, detail_headers):
 	soup = BeautifulSoup(detail_res.text, "html.parser")
 	
 	# 公司狀態
-	status = soup.select(banId)[0].select("tbody")[0].select("tr")[1].select("td")[1].text.encode("big5", "ignore").strip()
+	try:
+		status = soup.select(banId)[0].select("tbody")[0].select("tr")[1].select("td")[1].text.encode("big5", "ignore").strip()
+	except:
+		return "", "", ""
 
 	if status == "":
 		return
@@ -218,7 +221,13 @@ def bussiness_crawler(GUI):
 	}
 	
 	# 爬取頁面
-	res = s.post(url, headers = headers_query, data = payload, timeout = 30)
+	for i in range(15):
+		try:
+			res = s.post(url, headers = headers_query, data = payload, timeout = 30)
+			break
+		except:
+			time.sleep(random.randint(30, 60))
+	
 	soup = BeautifulSoup(res.text , "html.parser")
 	
 	# 欲獲取的資料在js裡頭，抓取需要的參數
@@ -433,7 +442,6 @@ def GcisCrawler(done_file, lastest_file, save_file):
 			#存檔
 			data = SaveData(save_file, data)
 			print "files have been saved!"
-			# time.sleep(random.randint(90, 150))
 			time.sleep(random.randint(30, 60))
 			#break
 
