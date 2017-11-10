@@ -83,16 +83,12 @@ if __name__ == '__main__':
 	start = time.time()
 
 	# 國貿局進出口實績資料最新年份
-	# year = input("please enter last year of trade data:")
 	year = input("國貿局進出口實績資料最新年份:".decode("utf-8").encode("big5"))
 	# 國貿局進出口實績資料最新年份的最新月份
-	# latest_month = input("please enter last month of trade data:")
 	latest_month = input("國貿局進出口實績資料最新年份的最新月份:".decode("utf-8").encode("big5"))
 	# 最新一份全國data檔名的時間
-	# last_date = raw_input("please enter date for last saved file name:")
 	last_date = raw_input("最新一份全國data檔名的時間:".decode("utf-8").encode("big5"))
 	# 此次要儲存的檔名時間
-	# date = raw_input("please enter date for saved file name:")
 	date = raw_input("此次要儲存的檔名時間:".decode("utf-8").encode("big5"))
 
 	# 爬取國貿局資料
