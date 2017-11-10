@@ -21,24 +21,6 @@ import datetime
 
 
 
-
-
-
-
-# GUI = "12041076"  #"94925188" # 商號
-# GUI = "53988048"   #"16273940"  # 公司
-# GUI = "29182774 "  #分公司
-# GUI = "22954677" # 公司 and 分公司
-
-# 16273940 公司      HC+GUI
-# 12041076 商號      HB
-# 29182774 分公司    BC+GUI
-# GUI = "32010060" #工廠      HF
-# 42904351 有限合夥  HL+GUI
-
-
-
-
 # 公司 http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do
 def company_crawler(GUI, detail_headers):
 
@@ -84,7 +66,7 @@ def company_crawler(GUI, detail_headers):
 		return
 
 	# 營業項目
-	code = soup.select(banId)[0].select("tbody")[0].select("tr")[-1].select("td")[1]
+	code = soup.select(banId)[0].select("tbody")[0].select("tr")[-2].select("td")[1]
 	# 若只有一個營業項目，直接抓取英文字的位置
 	if len(code.select("br")) == 1:
 		code = code.text.encode("utf-8")
@@ -299,7 +281,7 @@ def branch_crawler(GUI, detail_headers):
 	return data_type, status, codes
 
 
-# 工廠
+# 工廠 http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do
 def factory_crawler(GUI):
 	
 	url = "http://findbiz.nat.gov.tw/fts/query/QueryList/queryList.do"

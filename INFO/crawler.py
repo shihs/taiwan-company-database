@@ -25,8 +25,6 @@ def ftrade(date, year, latest_month):
 	trade = "../raw data/trade_" + date + ".csv"		# 國貿局有資料的檔案名稱
 	no_trade = "../raw data/no_trade_" + date + ".csv"  # 國貿局無資料的檔案名稱
 
-	### 全國營業登記檔案下載
-	#DownloadTWCompany()
 
 	# 國貿局有資料的公司data欄位名稱
 	colnames = ["GUI", "總機構GUI", "中文名稱", "英文名稱", "地址", "設立日期", "代表人", "資本額", "使用統一發票", "行業代碼與名稱",\
@@ -98,7 +96,7 @@ if __name__ == '__main__':
 	date = raw_input("此次要儲存的檔名時間:".decode("utf-8").encode("big5"))
 
 	# 爬取國貿局資料
-	#ftrade(date, year, latest_month)
+	ftrade(date, year, latest_month)
 
 	# 爬取經濟部商業司資料
 	gcis(date, last_date)
