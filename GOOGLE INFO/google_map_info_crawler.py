@@ -9,6 +9,7 @@ import csv
 import random
 import time
 import os.path
+import os
 
 
 # 讀取keys檔案中api所需的key
@@ -146,8 +147,15 @@ def main():
 	
 	# tw company
 	company_names = {}
+	# 最新爬取的檔案日期
+	date = set()
+	for i in os.listdir("D:/workplace_milly/TW Database/COMPANY INFO/raw data"):
+	    if i[0:5] == "trade":
+	        date.add(int(i[-8:-4]))	
+	date = max(date)
+	
 	# 此次更新公司的GUI與名稱
-	with open("../raw data/trade_0829.csv", "r") as f:
+	with open("../raw data/trade_" + date + ".csv", "r") as f:
 			reader = csv.reader(f, delimiter = ",")
 			for i in range(1):
 				next(reader, None)  # ignore column name
