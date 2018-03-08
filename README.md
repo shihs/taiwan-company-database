@@ -1,4 +1,4 @@
-﻿# 全台公司資料爬蟲程式
+﻿﻿# 全台公司資料爬蟲程式
 <b>全台公司資料來源共有四個部份</b>
 
 1.<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集 </a>(open data)</br>
@@ -7,9 +7,9 @@
 2.<a href="https://fbfh.trade.gov.tw/rich/text/indexfbOL.asp">國貿局進出口資料 </a></br>
 &nbsp;&nbsp;&nbsp;透過GUI爬取有進出口值的公司資訊，包含公司英文名稱與電話
 
-3.<a href = "http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">商工登記公示資料查詢服務 </a>、<a href="http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">經濟部財政司</a></br>
+3.<a href = "http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">商工登記公示資料查詢服務 </a></br>
 &nbsp;&nbsp;&nbsp;透過GUI爬取公司的種類、營業狀態與營業項目</br>
-&nbsp;&nbsp;&nbsp;公司種類分為：公司、分公司、工廠、商業，除商業外，其他資料皆來自商工登記公示資料查詢服務
+&nbsp;&nbsp;&nbsp;公司種類分為：公司、分公司、工廠、商業及有限合夥
 
 4.Google API
 <a href="https://developers.google.com/places/web-service/autocomplete?hl=zh-tw">地點自動完成 </a>、
@@ -25,10 +25,9 @@
 
 1.公開資料，<a href="https://github.com/shihs/taiwan-company-database/tree/master/INFO">公司資本資訊</a></br>
 &nbsp;&nbsp;&nbsp;來源是
-<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集 </a>、
+<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集(不需爬取) </a>、
 <a href="https://fbfh.trade.gov.tw/rich/text/indexfbOL.asp">國貿局進出口資料 </a>、
-<a href = "http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">商工登記公示資料查詢服務 </a>、
-<a href="http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">經濟部財政司</a>
+<a href = "http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">商工登記公示資料查詢服務 </a>
 
 
 2.GOOGLE API <a href="https://github.com/shihs/taiwan-company-database/tree/master/GOOGLE%20INFO">公司電話與地址</a></br>
