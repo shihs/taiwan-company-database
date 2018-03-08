@@ -1,4 +1,4 @@
-﻿﻿# 全台公司資料爬蟲程式
+﻿﻿# 全台公司資料爬蟲程式</br>
 <b>全台公司資料來源共有四個部份</b>
 
 1.<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集 </a>(open data)</br>
@@ -25,7 +25,7 @@
 
 1.公開資料，<a href="https://github.com/shihs/taiwan-company-database/tree/master/INFO">公司資本資訊</a></br>
 &nbsp;&nbsp;&nbsp;來源是
-<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集(不需爬取) </a>、
+<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集</a>、
 <a href="https://fbfh.trade.gov.tw/rich/text/indexfbOL.asp">國貿局進出口資料 </a>、
 <a href = "http://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">商工登記公示資料查詢服務 </a>
 
