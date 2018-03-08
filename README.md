@@ -1,4 +1,4 @@
-﻿<b>﻿<h1># 全台公司資料爬蟲程式</br></h1></b>
+﻿<b>﻿<h1>全台公司資料爬蟲程式</br></h1></b>
 <b>全台公司資料來源共有四個部份</b>
 
 1.<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集 </a>(open data)</br>
@@ -31,7 +31,7 @@
 
 
 2.GOOGLE API <a href="https://github.com/shihs/taiwan-company-database/tree/master/GOOGLE%20INFO">公司電話與地址</a></br>
-<a href="https://developers.google.com/places/web-service/autocomplete?hl=zh-tw">地點自動完成 </a>、
+&nbsp;&nbsp;&nbsp;<a href="https://developers.google.com/places/web-service/autocomplete?hl=zh-tw">地點自動完成 </a>、
 <a href="https://developers.google.com/places/web-service/details?hl=zh-tw">地點詳細資料 </a></br>
 
 </br>
