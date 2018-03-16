@@ -46,6 +46,7 @@ def info_crawler(GUI, PROXY_LIST, ip, headers):
 		GUI:公司統一編號
 	'''
 	s = requests.Session()
+	s.keep_alive = False
 
 	url = "https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do"
 	s.get(url)
@@ -80,7 +81,7 @@ def info_crawler(GUI, PROXY_LIST, ip, headers):
 		except Exception as e:
 			print (e)
 			PROXY_LIST.remove(ip)
-			time.sleep(5)
+			# time.sleep(1)
 
 			if len(PROXY_LIST) == 0:
 				PROXY_LIST = get_proxy()
@@ -98,7 +99,7 @@ def info_crawler(GUI, PROXY_LIST, ip, headers):
 	if len(soup.select(".g-recaptcha")) != 0:
 		print "BANNED!"
 		# return soup.select(".g-recaptcha")[0]["data-sitekey"]
-		return "BANNED!"
+		return "BANNED"
 
 	# GUI搜尋是否有結果
 	if len(soup.select(".hover")) == 0:
@@ -106,7 +107,7 @@ def info_crawler(GUI, PROXY_LIST, ip, headers):
 
 	# GUI搜尋有結果則抓取其他資料
 	GUI_url = "https://findbiz.nat.gov.tw"+ soup.select(".hover")[0]["href"]
-	time.sleep(0.5)
+	# time.sleep(0.5)
 	
 	while True:
 		try:
@@ -115,7 +116,7 @@ def info_crawler(GUI, PROXY_LIST, ip, headers):
 			break
 		except Exception as e:
 			print (e)
-			time.sleep(3)
+			# time.sleep(1)
 			PROXY_LIST.remove(ip)
 
 			if len(PROXY_LIST) == 0:
@@ -128,7 +129,7 @@ def info_crawler(GUI, PROXY_LIST, ip, headers):
 				"User-Agent":random.choice(USER_AGENT),
 				"Referer":"http://findbiz.nat.gov.tw/fts/query/QueryList/queryList.do"
 			}
-		
+
 	GUI_soup = BeautifulSoup(GUI_res.text, "lxml")
 
 	# 資料種類：公司、商業、分公司、工廠、有限合夥
@@ -225,13 +226,26 @@ def GcisCrawler(done_file, save_file):
 		while True:
 			try:
 				result = info_crawler(GUI, PROXY_LIST, ip, headers)
-				if len(result) != 1:
+				# if len(result) != 1:
+				# 	break
+				if result != "BANNED":
 					break
-				time.sleep(5)
+				time.sleep(120)
+				data = SaveData(save_file, data)
+				print "file has been saved!"
+				if len(PROXY_LIST) == 0:
+					PROXY_LIST = get_proxy()
+				ip = random.choice(PROXY_LIST)
+				headers = {
+					"User-Agent":random.choice(USER_AGENT),
+					"Referer":"https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do",
+				}
 			except Exception as e:
 				print (e)
 				data = SaveData(save_file, data)
 				print "file has been saved!"
+				if len(PROXY_LIST) == 0:
+					PROXY_LIST = get_proxy()
 				ip = random.choice(PROXY_LIST)
 				headers = {
 					"User-Agent":random.choice(USER_AGENT),
@@ -249,11 +263,11 @@ def GcisCrawler(done_file, save_file):
 		print "GCIS:" + str(count) + "......is done!  GUI:" + GUI + "  " +  str(datetime.datetime.now())
 
 		# 每五千筆資料儲存一次檔案
-		if str(count)[-4:] == "5000":
+		if count%5000 == 0:
 			#存檔
 			data = SaveData(save_file, data)
 			print "files have been saved!"
-			time.sleep(random.randint(10, 30))
+			time.sleep(random.randint(5, 10))
 
 		time.sleep(0.5)  # 每一筆結束後休息0.5秒
 
