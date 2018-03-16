@@ -23,7 +23,7 @@
 
 <b>程式分為兩個部份</b>
 
-1.公開資料，<a href="https://github.com/shihs/taiwan-company-database/tree/master/INFO">公司資本資訊</a></br>
+1.公開資料，<a href="https://github.com/shihs/taiwan-company-database/tree/master/INFO">公司基本資訊</a></br>
 &nbsp;&nbsp;&nbsp;來源是
 <a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集</a>、
 <a href="https://fbfh.trade.gov.tw/rich/text/indexfbOL.asp">國貿局進出口資料 </a>、
