@@ -19,14 +19,14 @@ def get_proxy():
 
 	proxies = []
 	url = "http://www.proxyserverlist24.top/"
-	res = requests.get(url)
+	res = requests.get(url, timeout = 30)
 	soup = BeautifulSoup(res.text, "lxml")
 
 	for artical in soup.select(".post-title"):
 		artical_url = artical.select("a")[0]["href"]
 		# print artical_url
 		time.sleep(1)
-		artical_res = requests.get(artical_url)
+		artical_res = requests.get(artical_url, timeout = 30)
 		artical_soup = BeautifulSoup(artical_res.text, "lxml")
 
 		try:
