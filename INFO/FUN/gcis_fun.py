@@ -7,6 +7,8 @@ import requests
 import random
 import time
 import datetime
+import sys
+import os
 
 
 
@@ -79,9 +81,11 @@ def info_crawler(GUI, PROXY_LIST, ip, headers):
 			res = s.post(url, data = payload, headers = headers, proxies = proxy, timeout = 10)
 			break
 		except Exception as e:
-			print (e)
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			print(exc_type, fname, exc_tb.tb_lineno)
+			
 			PROXY_LIST.remove(ip)
-			# time.sleep(1)
 
 			if len(PROXY_LIST) == 0:
 				PROXY_LIST = get_proxy()
@@ -115,8 +119,10 @@ def info_crawler(GUI, PROXY_LIST, ip, headers):
 			GUI_res = s.get(GUI_url, headers = headers, proxies = proxy, timeout = 10)
 			break
 		except Exception as e:
-			print (e)
-			# time.sleep(1)
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			print(exc_type, fname, exc_tb.tb_lineno)
+			
 			PROXY_LIST.remove(ip)
 
 			if len(PROXY_LIST) == 0:
@@ -229,7 +235,13 @@ def GcisCrawler(done_file, save_file):
 				# if len(result) != 1:
 				# 	break
 				if result != "BANNED":
+					data_type = result[0].decode("utf-8", "ignore").encode("big5", "ignore")
+					status = result[1].decode("utf-8", "ignore").encode("big5", "ignore")
+					codes = result[2].decode("utf-8", "ignore").encode("big5", "ignore")
+					PROXY_LIST = result[3]
+					ip = result[4]
 					break
+
 				time.sleep(120)
 				data = SaveData(save_file, data)
 				print "file has been saved!"
@@ -240,8 +252,18 @@ def GcisCrawler(done_file, save_file):
 					"User-Agent":random.choice(USER_AGENT),
 					"Referer":"https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do",
 				}
+
+				
+			except IndexError:
+				print "IndexError!"
+				data_type, status, codes = "", "", ""
+				break
+
 			except Exception as e:
-				print (e)
+				exc_type, exc_obj, exc_tb = sys.exc_info()
+				fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+				print(exc_type, fname, exc_tb.tb_lineno)
+				
 				data = SaveData(save_file, data)
 				print "file has been saved!"
 				if len(PROXY_LIST) == 0:
@@ -251,13 +273,8 @@ def GcisCrawler(done_file, save_file):
 					"User-Agent":random.choice(USER_AGENT),
 					"Referer":"https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do",
 				}
-		
-		data_type = result[0].decode("utf-8", "ignore").encode("big5", "ignore")
-		status = result[1].decode("utf-8", "ignore").encode("big5", "ignore")
-		codes = result[2].decode("utf-8", "ignore").encode("big5", "ignore")
-		PROXY_LIST = result[3]
-		ip = result[4]
 
+		
 		data.append([GUI, data_type, status, codes])
 
 		print "GCIS:" + str(count) + "......is done!  GUI:" + GUI + "  " +  str(datetime.datetime.now())
