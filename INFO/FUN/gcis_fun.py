@@ -27,7 +27,7 @@ def get_proxy():
 	for artical in soup.select(".post-title"):
 		artical_url = artical.select("a")[0]["href"]
 		# print artical_url
-		time.sleep(1)
+		time.sleep(0.5)
 		artical_res = requests.get(artical_url, timeout = 30)
 		artical_soup = BeautifulSoup(artical_res.text, "lxml")
 
@@ -245,6 +245,7 @@ def GcisCrawler(done_file, save_file):
 				time.sleep(120)
 				data = SaveData(save_file, data)
 				print "file has been saved!"
+				PROXY_LIST.remove(ip)
 				if len(PROXY_LIST) == 0:
 					PROXY_LIST = get_proxy()
 				ip = random.choice(PROXY_LIST)
