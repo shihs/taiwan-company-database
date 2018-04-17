@@ -64,9 +64,9 @@ def TradeCrawler(crawled_data, trade_file, no_trade_file, year):
 	# 開啟全國營業登記資料檔
 	with open("BGMOPEN1.csv", "r") as f:
 		
-		reader = csv.reader(f, delimiter = ';')
+		reader = csv.reader(f, delimiter = ',')
 		#skip前三列
-		for i in range(3):
+		for i in range(2):
 			next(reader, None)
 		
 		# 利用國貿局網站抓取廠商進出口登記資料，若不存在網站中則另外儲存
