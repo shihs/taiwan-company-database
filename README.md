@@ -5,8 +5,9 @@
 
 <b>環境</b><p>
 Windows7/python2.7<p>
-<p>
-<p>
+</br>
+</br>
+</br>
 <b>全台公司資料來源共有四個部份</b>
 
 1.<a href="http://data.gov.tw/node/9400">財政部財政資訊中心-全國營業(稅籍)登記資料集 </a>(open data)</br>
